@@ -1,0 +1,68 @@
+{
+  "name": "vscode-statusbar-debugger",
+  "displayName": "StatusBar Debugger",
+  "description": "Add a debugger to the statusbar, less intrusive than the default floating one",
+  "icon": "resources/logo-128x128.png",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "out/src/extension.js",
+  "publisher": "fabiospampinato",
+  "author": {
+    "name": "Fabio Spampinato",
+    "email": "spampinabio@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/fabiospampinato/vscode-statusbar-debugger/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fabiospampinato/vscode-statusbar-debugger"
+  },
+  "engines": {
+    "vscode": "^1.10.0"
+  },
+  "keywords": [
+    "vscode",
+    "vsc",
+    "statusbar",
+    "debug",
+    "debugger"
+  ],
+  "categories": [
+    "Debuggers"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "statusbarDebugger.toggle",
+        "title": "StatusBar Debugger: Toggle"
+      },
+      {
+        "command": "statusbarDebugger.start",
+        "title": "StatusBar Debugger: Start"
+      },
+      {
+        "command": "statusbarDebugger.stop",
+        "title": "StatusBar Debugger: Stop"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "tsc -p ./",
+    "compile": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "node ./node_modules/vscode/bin/test"
+  },
+  "dependencies": {
+    "lodash": "^4.17.4"
+  },
+  "devDependencies": {
+    "@types/node": "^6.0.40",
+    "@types/lodash": "^4.14.59",
+    "typescript": "^2.4.1",
+    "vscode": "^1.1.4"
+  }
+}
