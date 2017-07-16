@@ -57,7 +57,7 @@ class Statusbar {
 
     /* BUG */
 
-    this.bug.color = active ? '#B89500' : undefined;
+    this.bug.color = active ? '#FFCC00' : undefined;
     this.bug.tooltip = active ? 'Stop debugging' : 'Start debugging';
 
     /* ACTIONS */
