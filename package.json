@@ -3,7 +3,7 @@
   "displayName": "StatusBar Debugger",
   "description": "Add a debugger to the statusbar, less intrusive than the default floating one",
   "icon": "resources/logo-128x128.png",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "main": "out/src/extension.js",
   "publisher": "fabiospampinato",
@@ -35,6 +35,17 @@
     "*"
   ],
   "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "StatusBar Debugger - Configuration",
+      "properties": {
+        "statusbarDebugger.activeColor": {
+          "type": "string",
+          "description": "The color of the bug icon when active",
+          "default": "#FFCC00"
+        }
+      }
+    },
     "commands": [
       {
         "command": "statusbarDebugger.toggle",

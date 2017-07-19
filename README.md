@@ -26,6 +26,14 @@ StatusBar Debugger: Stop // Stop debugging
 
 It also adds a bug-like icon to the statusbar, you can use it to toggle debugging. Once a debugging session has started the usual actions will appear next to it.
 
+## Settings
+
+```js
+{
+  "statusbarDebugger.activeColor": "#FFCC00" // The color of the bug icon when active
+}
+```
+
 ## Demo
 
 ![Demo](resources/demo.gif)

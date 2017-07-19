@@ -3,6 +3,7 @@
 
 import * as _ from 'lodash';
 import * as vscode from 'vscode';
+import Config from './config';
 
 /* STATUSBAR */
 
@@ -53,11 +54,12 @@ class Statusbar {
 
   toggle ( force?: boolean ) {
 
-    const active = _.isBoolean ( force ) ? force : !this._isActive;
+    const config = Config.get (),
+          active = _.isBoolean ( force ) ? force : !this._isActive;
 
     /* BUG */
 
-    this.bug.color = active ? '#FFCC00' : undefined;
+    this.bug.color = active ? config.activeColor : undefined;
     this.bug.tooltip = active ? 'Stop debugging' : 'Start debugging';
 
     /* ACTIONS */
