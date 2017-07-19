@@ -1,4 +1,2 @@
 
-☐ Add a pause action button
-☐ Detect when paused
-☐ Detect when a debugging section has been started/stopped from somewhere else
+☐ Detect debugging status (https://github.com/Microsoft/vscode/issues/30810)
