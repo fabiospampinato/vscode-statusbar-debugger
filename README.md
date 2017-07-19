@@ -33,7 +33,7 @@ It also adds a bug-like icon to the statusbar, you can use it to toggle debuggin
 ## Hits:
 
 - **Disable the default debugger**: set `"debug.hideActionBar": true` in your settings to disable the default, intrusive debugger.
-- **Remap start/stop shortcuts**: due to some limitations to the API this extension cannot properly detect if you start/stop debugging with other means than those provided by this extension, therefor is advisable to remap your start/stop shortcuts to it (they will work the same, but this extension will be able to detect when they are triggered), add this to your `keybindings.json`:
+- **Remap start/stop shortcuts**: due to some limitations of the API this extension cannot properly detect if you start/stop debugging with other means than those provided by this extension, therefor is advisable to remap your start/stop shortcuts to it (they will work the same, but this extension will be able to detect when they are triggered), add this to your `keybindings.json`:
 ```json
       { "key": "f5",       "command": "statusbarDebugger.start",
                              "when": "!inDebugMode" },
