@@ -2,11 +2,11 @@
 /* IMPORT */
 
 import './statusbar';
-import Utils from './utils';
+import * as _ from 'lodash';
 
 /* ACTIVATE */
 
-const activate = Utils.initCommands;
+const activate = _.noop;
 
 /* EXPORT */
 

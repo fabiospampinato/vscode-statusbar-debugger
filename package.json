@@ -3,7 +3,7 @@
   "displayName": "StatusBar Debugger",
   "description": "Add a debugger to the statusbar, less intrusive than the default floating one",
   "icon": "resources/logo-128x128.png",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "license": "MIT",
   "main": "out/src/extension.js",
   "publisher": "fabiospampinato",
@@ -19,7 +19,7 @@
     "url": "https://github.com/fabiospampinato/vscode-statusbar-debugger"
   },
   "engines": {
-    "vscode": "^1.10.0"
+    "vscode": "^1.15.0"
   },
   "keywords": [
     "vscode",
@@ -45,21 +45,7 @@
           "default": "#FFCC00"
         }
       }
-    },
-    "commands": [
-      {
-        "command": "statusbarDebugger.toggle",
-        "title": "StatusBar Debugger: Toggle"
-      },
-      {
-        "command": "statusbarDebugger.start",
-        "title": "StatusBar Debugger: Start"
-      },
-      {
-        "command": "statusbarDebugger.stop",
-        "title": "StatusBar Debugger: Stop"
-      }
-    ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "tsc -p ./",

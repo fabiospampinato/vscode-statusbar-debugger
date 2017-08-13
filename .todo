@@ -1,2 +1,3 @@
 
-☐ Detect debugging status (https://github.com/Microsoft/vscode/issues/30810)
+☐ Detect pause status
+  ☐ https://github.com/Microsoft/vscode/issues/30810

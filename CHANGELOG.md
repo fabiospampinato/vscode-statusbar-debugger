@@ -1,3 +1,6 @@
+### Version 1.1.0
+- Auto-detection of start/stop events
+
 ### Version 1.0.2
 - Added a `pause` action button
 

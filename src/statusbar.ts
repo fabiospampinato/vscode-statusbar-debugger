@@ -9,7 +9,7 @@ import Config from './config';
 
 class Statusbar {
 
-  _isActive; bug; actions;
+  bug; actions;
 
   constructor () {
 
@@ -17,7 +17,7 @@ class Statusbar {
 
     /* BUG */
 
-    const bugOptions = { text: '$(bug)', tooltip: 'Start debugging', command: 'statusbarDebugger.toggle' };
+    const bugOptions = { text: '$(bug)', tooltip: 'Start debugging', command: 'workbench.action.debug.start' };
 
     this.bug = this.makeItem ( bugOptions, priority );
     this.bug.show ();
@@ -31,10 +31,21 @@ class Statusbar {
       { text: '$(arrow-down)', tooltip: 'Step into', command: 'workbench.action.debug.stepInto' },
       { text: '$(arrow-up)', tooltip: 'Step out', command: 'workbench.action.debug.stepOut' },
       { text: '$(mail-reply)', tooltip: 'Restart', command: 'workbench.action.debug.restart' },
-      { text: '$(primitive-square)', tooltip: 'Stop', command: 'statusbarDebugger.stop' }
+      { text: '$(primitive-square)', tooltip: 'Stop', command: 'workbench.action.debug.stop' }
     ];
 
     this.actions = actionsOptions.map ( ( options, index ) => this.makeItem ( options, priority - index - 1 ) );
+
+    /* EVENTS */
+
+    this.events ();
+
+  }
+
+  events () {
+
+    vscode['debug'].onDidStartDebugSession ( () => this.update ( true ) );
+    vscode['debug'].onDidTerminateDebugSession ( () => this.update ( false ) );
 
   }
 
@@ -48,21 +59,15 @@ class Statusbar {
 
   }
 
-  isActive () {
+  update ( active = !!vscode['debug'].activeDebugSession ) {
 
-    return !!this._isActive;
-
-  }
-
-  toggle ( force?: boolean ) {
-
-    const config = Config.get (),
-          active = _.isBoolean ( force ) ? force : !this._isActive;
+    const config = Config.get ();
 
     /* BUG */
 
     this.bug.color = active ? config.activeColor : undefined;
     this.bug.tooltip = active ? 'Stop debugging' : 'Start debugging';
+    this.bug.command = active ? 'workbench.action.debug.stop' : 'workbench.action.debug.start';
 
     /* ACTIONS */
 
