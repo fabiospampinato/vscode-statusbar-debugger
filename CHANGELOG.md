@@ -1,3 +1,6 @@
+### Version 1.1.1
+- Updated readme
+
 ### Version 1.1.0
 - Auto-detection of start/stop events
 

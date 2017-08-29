@@ -4,7 +4,7 @@
   <img src="https://raw.githubusercontent.com/fabiospampinato/vscode-statusbar-debugger/master/resources/logo-128x128.png" alt="Logo">
 </p>
 
-Add a debugger to the statusbar, less intrusive than the default floating one.
+Adds a debugger to the statusbar, less intrusive than the default floating one.
 
 ## Install
 
@@ -16,9 +16,9 @@ ext install vscode-statusbar-debugger
 
 ## Usage
 
-Just start/stop a debugging session and it will detect it. Once a debugging session has started the usual actions will appear next to it.
+Just start/stop a debugging session and it will detect it.
 
-It also adds a bug-like icon to the statusbar, you can use it to toggle debugging.
+It adds a bug-like icon to the statusbar, you can use it to toggle debugging. Once a debugging session has started the usual actions will appear next to it.
 
 ## Settings
 
@@ -34,7 +34,7 @@ It also adds a bug-like icon to the statusbar, you can use it to toggle debuggin
 
 ## Hits:
 
-- **Disable the default debugger**: set `"debug.hideActionBar": true` in your settings to disable the default, intrusive debugger.
+- **Disable the default debugger**: set `"debug.hideActionBar": true` in your settings to disable the default, intrusive, debugger.
 
 ## License
 
