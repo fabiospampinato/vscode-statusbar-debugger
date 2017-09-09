@@ -44,8 +44,7 @@ class Statusbar {
 
   events () {
 
-    vscode['debug'].onDidStartDebugSession ( () => this.update ( true ) );
-    vscode['debug'].onDidTerminateDebugSession ( () => this.update ( false ) );
+    vscode['debug'].onDidChangeActiveDebugSession(() => this.update());
 
   }
 
