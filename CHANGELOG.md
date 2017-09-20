@@ -1,3 +1,6 @@
+### Version 1.1.2
+- Improved support for `Start Without Debugging`
+
 ### Version 1.1.1
 - Updated readme
 
