@@ -1,3 +1,6 @@
+### Version 1.2.0
+- Added options for customizing alignment and priority
+
 ### Version 1.1.2
 - Improved support for `Start Without Debugging`
 
