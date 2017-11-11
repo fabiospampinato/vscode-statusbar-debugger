@@ -43,6 +43,16 @@
           "type": "string",
           "description": "The color of the bug icon when active",
           "default": "#FFCC00"
+        },
+        "statusbarDebugger.alignment": {
+          "type": "string",
+          "description": "Should the item be placed to the left or right?",
+          "default": "left"
+        },
+        "statusbarDebugger.priority": {
+          "type": "number",
+          "description": "The priority of this item. Higher value means the item should be shown more to the left",
+          "default": -10
         }
       }
     }

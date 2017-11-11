@@ -25,6 +25,8 @@ It adds a bug-like icon to the statusbar, you can use it to toggle debugging. On
 ```js
 {
   "statusbarDebugger.activeColor": "#FFCC00" // The color of the bug icon when active
+  "statusbarDebugger.alignment": "left", // Should the item be placed to the left or right?
+  "statusbarDebugger.priority": -10 // The priority of this item. Higher value means the item should be shown more to the left
 }
 ```
 

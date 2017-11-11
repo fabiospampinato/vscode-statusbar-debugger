@@ -13,13 +13,17 @@ class Statusbar {
 
   constructor () {
 
-    const priority = Number.MIN_SAFE_INTEGER + 1000;
+    /* CONFIG */
+
+    const config = Config.get (),
+          alignment = config.alignment === 'right' ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left,
+          priority = config.priority;
 
     /* BUG */
 
     const bugOptions = { text: '$(bug)', tooltip: 'Start debugging', command: 'workbench.action.debug.start' };
 
-    this.bug = this.makeItem ( bugOptions, priority );
+    this.bug = this.makeItem ( bugOptions, alignment, priority );
     this.bug.show ();
 
     /* ACTIONS */
@@ -34,7 +38,7 @@ class Statusbar {
       { text: '$(primitive-square)', tooltip: 'Stop', command: 'workbench.action.debug.stop' }
     ];
 
-    this.actions = actionsOptions.map ( ( options, index ) => this.makeItem ( options, priority - index - 1 ) );
+    this.actions = actionsOptions.map ( ( options, index ) => this.makeItem ( options, alignment, priority - index - 1 ) );
 
     /* EVENTS */
 
@@ -50,9 +54,9 @@ class Statusbar {
 
   }
 
-  makeItem ( options, priority ) {
+  makeItem ( options, alignment, priority ) {
 
-    const item = vscode.window.createStatusBarItem ( vscode.StatusBarAlignment.Left, priority );
+    const item = vscode.window.createStatusBarItem ( alignment, priority );
 
     _.extend ( item, options );
 
