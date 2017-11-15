@@ -39,6 +39,22 @@
       "type": "object",
       "title": "StatusBar Debugger - Configuration",
       "properties": {
+        "statusbarDebugger.actions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of enabled actions' buttons",
+          "default": [
+            "pause",
+            "continue",
+            "step_over",
+            "step_into",
+            "step_out",
+            "restart",
+            "stop"
+          ]
+        },
         "statusbarDebugger.activeColor": {
           "type": "string",
           "description": "The color of the bug icon when active",

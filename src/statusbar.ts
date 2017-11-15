@@ -16,6 +16,7 @@ class Statusbar {
     /* CONFIG */
 
     const config = Config.get (),
+          actions = config.actions,
           alignment = config.alignment === 'right' ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left,
           priority = config.priority;
 
@@ -29,16 +30,18 @@ class Statusbar {
     /* ACTIONS */
 
     const actionsOptions = [
-      { text: '❙\u2009❙', tooltip: 'Pause', command: 'workbench.action.debug.pause' },
-      { text: '\u2006$(triangle-right)\u2006', tooltip: 'Continue', command: 'workbench.action.debug.continue' },
-      { text: '$(arrow-right)',tooltip: 'Step over', command: 'workbench.action.debug.stepOver' },
-      { text: '$(arrow-down)', tooltip: 'Step into', command: 'workbench.action.debug.stepInto' },
-      { text: '$(arrow-up)', tooltip: 'Step out', command: 'workbench.action.debug.stepOut' },
-      { text: '$(mail-reply)', tooltip: 'Restart', command: 'workbench.action.debug.restart' },
-      { text: '$(primitive-square)', tooltip: 'Stop', command: 'workbench.action.debug.stop' }
+      { name: 'pause',     text: '❙\u2009❙',                      tooltip: 'Pause',     command: 'workbench.action.debug.pause' },
+      { name: 'continue',  text: '\u2006$(triangle-right)\u2006', tooltip: 'Continue',  command: 'workbench.action.debug.continue' },
+      { name: 'step_over', text: '$(arrow-right)',                tooltip: 'Step over', command: 'workbench.action.debug.stepOver' },
+      { name: 'step_into', text: '$(arrow-down)',                 tooltip: 'Step into', command: 'workbench.action.debug.stepInto' },
+      { name: 'step_out',  text: '$(arrow-up)',                   tooltip: 'Step out',  command: 'workbench.action.debug.stepOut' },
+      { name: 'restart',   text: '$(mail-reply)',                 tooltip: 'Restart',   command: 'workbench.action.debug.restart' },
+      { name: 'stop',      text: '$(primitive-square)',           tooltip: 'Stop',      command: 'workbench.action.debug.stop' }
     ];
 
-    this.actions = actionsOptions.map ( ( options, index ) => this.makeItem ( options, alignment, priority - index - 1 ) );
+    const enabledActionsOptions = actionsOptions.filter ( actionOption => _.includes ( actions, actionOption.name ) );
+
+    this.actions = enabledActionsOptions.map ( ( options, index ) => this.makeItem ( options, alignment, priority - index - 1 ) );
 
     /* EVENTS */
 
