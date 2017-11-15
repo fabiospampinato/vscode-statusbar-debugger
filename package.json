@@ -57,13 +57,13 @@
         },
         "statusbarDebugger.template": {
           "type": "string",
-          "description": "Template used for rendering the statusbar item, by default a \"bug\" icon",
-          "default": "$(bug)"
+          "description": "Template used for rendering the statusbar item, by default a \"bug\" icon and the name of the current debug session",
+          "default": "$(bug) [name]"
         },
         "statusbarDebugger.activeColor": {
           "type": "string",
-          "description": "The color of the bug icon when active",
-          "default": "#FFCC00"
+          "description": "The color of the statusbar item when debugging",
+          "default": ""
         },
         "statusbarDebugger.alignment": {
           "type": "string",

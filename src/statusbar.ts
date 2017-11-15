@@ -35,11 +35,8 @@ class Statusbar {
 
   initBug () {
 
-    const bugOptions = {
-      text: this.config.template,
-      tooltip: 'Start debugging',
-      command: 'workbench.action.debug.start'
-    };
+    const text = this.renderTemplate ( this.config.template ),
+          bugOptions = { text, tooltip: 'Start debugging', command: 'workbench.action.debug.start' };
 
     this.bug = this.makeItem ( bugOptions, this.config.alignment, this.config.priority );
     this.bug.show ();
@@ -82,6 +79,22 @@ class Statusbar {
 
   }
 
+  renderTemplate ( template ) {
+
+    const tokens = {
+      name: _.get ( vscode.debug.activeDebugSession, 'name' ) || '' // Better to show nothing than a useless `No Configurations`
+    };
+
+    _.forOwn ( tokens, ( value, key ) => {
+      template = template.replace ( `[${key}]`, value );
+    });
+
+    template = _.trim ( template );
+
+    return template;
+
+  }
+
   update ( active = !!vscode.debug.activeDebugSession ) {
 
     this._isActive = active;
@@ -93,6 +106,7 @@ class Statusbar {
 
   updateBug () {
 
+    this.bug.text = this.renderTemplate ( this.config.template );
     this.bug.color = this._isActive ? this.config.activeColor : undefined;
     this.bug.tooltip = this._isActive ? 'Stop debugging' : 'Start debugging';
     this.bug.command = this._isActive ? 'workbench.action.debug.stop' : 'workbench.action.debug.start';
