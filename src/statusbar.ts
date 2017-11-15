@@ -2,14 +2,17 @@
 /* IMPORT */
 
 import * as _ from 'lodash';
+import * as JSON5 from 'json5';
+import * as path from 'path';
 import * as vscode from 'vscode';
 import Config from './config';
+import Utils from './utils';
 
 /* STATUSBAR */
 
 class Statusbar {
 
-  config; bug; actions; _isActive;
+  config; bug; actions; _isActive; _launchPath;
 
   constructor () {
 
@@ -21,6 +24,7 @@ class Statusbar {
   init () {
 
     this.initConfig ();
+    this.initLaunchPath ();
     this.initBug ();
     this.initActions ();
 
@@ -28,17 +32,20 @@ class Statusbar {
 
   initConfig () {
 
-    this.config = Config.get ();
-    this.config.alignment = ( this.config.alignment === 'right' ) ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left;
+    this.updateConfig ();
 
   }
 
-  initBug () {
+  initLaunchPath () {
 
-    const text = this.renderTemplate ( this.config.template ),
-          bugOptions = { text, tooltip: 'Start debugging', command: 'workbench.action.debug.start' };
+    this._launchPath = this.getLaunchPath ();
 
-    this.bug = this.makeItem ( bugOptions, this.config.alignment, this.config.priority );
+  }
+
+  async initBug () {
+
+    this.bug = this.makeItem ( {}, this.config.alignment, this.config.priority );
+    await this.updateBug ();
     this.bug.show ();
 
   }
@@ -63,9 +70,56 @@ class Statusbar {
 
   events () {
 
+    const debouncedOnDidChangeActiveTextEditor = _.debounce ( this.onDidChangeActiveTextEditor.bind ( this ), 100 );
+
     vscode.debug.onDidStartDebugSession ( () => this.update ( true ) );
     vscode.debug.onDidTerminateDebugSession ( () => this.update ( false ) );
     vscode.debug.onDidChangeActiveDebugSession ( () => this.update () );
+    vscode.window.onDidChangeActiveTextEditor ( debouncedOnDidChangeActiveTextEditor );
+
+  }
+
+  onDidChangeActiveTextEditor () {
+
+    const newLaunchPath = this.getLaunchPath ();
+
+    if ( newLaunchPath === this._launchPath ) return;
+
+    this._launchPath = newLaunchPath;
+
+    this.updateBug ();
+
+  }
+
+  getLaunchPath () {
+
+    const rootPath = Utils.folder.getActiveRootPath ();
+
+    if ( !rootPath ) return;
+
+    return path.join ( rootPath, '.vscode', 'launch.json' );
+
+  }
+
+  async getConfigurationsNr () {
+
+    const launchPath = this._launchPath;
+
+    if ( !launchPath ) return 0;
+
+    const content = await Utils.file.read ( launchPath );
+
+    if ( !content ) return 0;
+
+    const contentj = _.attempt ( JSON5.parse, content ) as any; //TSC
+
+    if ( _.isError ( contentj ) ) return 0;
+
+    const {configurations} = contentj;
+
+    if ( !_.isArray ( configurations ) ) return 0;
+
+    return configurations.length;
 
   }
 
@@ -99,17 +153,56 @@ class Statusbar {
 
     this._isActive = active;
 
+    this.updateConfig ();
     this.updateBug ();
     this.updateActions ();
 
   }
 
-  updateBug () {
+  updateConfig () {
+
+    this.config = Config.get ();
+    this.config.alignment = ( this.config.alignment === 'right' ) ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left;
+
+  }
+
+  async updateBug () {
 
     this.bug.text = this.renderTemplate ( this.config.template );
     this.bug.color = this._isActive ? this.config.activeColor : undefined;
-    this.bug.tooltip = this._isActive ? 'Stop debugging' : 'Start debugging';
-    this.bug.command = this._isActive ? 'workbench.action.debug.stop' : 'workbench.action.debug.start';
+
+    let tooltip, command;
+
+    if ( this._isActive ) {
+
+      tooltip = 'Stop Debugging';
+      command = 'workbench.action.debug.stop';
+
+    } else {
+
+      const configurationsNr = await this.getConfigurationsNr ();
+
+      if ( !configurationsNr ) {
+
+        tooltip = 'Add Configuration';
+        command = 'debug.addConfiguration';
+
+      } else if ( this.config.command === 'start' || ( this.config.command === 'auto' && configurationsNr === 1 ) ) {
+
+        tooltip = 'Start Debugging';
+        command = 'workbench.action.debug.start';
+
+      } else if ( this.config.command === 'select' || ( this.config.command === 'auto' && configurationsNr > 1 ) ) {
+
+        tooltip = 'Select and Start Debugging';
+        command = 'workbench.action.debug.selectandstart';
+
+      }
+
+    }
+
+    this.bug.tooltip = tooltip;
+    this.bug.command = command;
 
   }
 

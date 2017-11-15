@@ -39,6 +39,16 @@
       "type": "object",
       "title": "StatusBar Debugger - Configuration",
       "properties": {
+        "statusbarDebugger.template": {
+          "type": "string",
+          "description": "Template used for rendering the statusbar item, by default a \"bug\" icon and the name of the current debug session",
+          "default": "$(bug) [name]"
+        },
+        "statusbarDebugger.command": {
+          "type": "string",
+          "description": "Command to execute when clicking the \"bug\" icon. Possible values are: \"start\" always start the active configuration, \"select\" always ask to select the configuration, \"auto\" start debugging if it detects only one configuration and ask for a selection if there are more than one. If a debug session is active the command will always be to stop it",
+          "default": "auto"
+        },
         "statusbarDebugger.actions": {
           "type": "array",
           "items": {
@@ -54,11 +64,6 @@
             "restart",
             "stop"
           ]
-        },
-        "statusbarDebugger.template": {
-          "type": "string",
-          "description": "Template used for rendering the statusbar item, by default a \"bug\" icon and the name of the current debug session",
-          "default": "$(bug) [name]"
         },
         "statusbarDebugger.activeColor": {
           "type": "string",
@@ -85,7 +90,10 @@
     "test": "node ./node_modules/vscode/bin/test"
   },
   "dependencies": {
-    "lodash": "^4.17.4"
+    "absolute": "0.0.1",
+    "json5": "^0.5.1",
+    "lodash": "^4.17.4",
+    "pify": "^3.0.0"
   },
   "devDependencies": {
     "@types/node": "^6.0.40",
