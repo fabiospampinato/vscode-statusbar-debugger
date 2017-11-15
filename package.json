@@ -55,6 +55,11 @@
             "stop"
           ]
         },
+        "statusbarDebugger.template": {
+          "type": "string",
+          "description": "Template used for rendering the statusbar item, by default a \"bug\" icon",
+          "default": "$(bug)"
+        },
         "statusbarDebugger.activeColor": {
           "type": "string",
           "description": "The color of the bug icon when active",

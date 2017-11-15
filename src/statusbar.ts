@@ -16,13 +16,12 @@ class Statusbar {
     /* CONFIG */
 
     const config = Config.get (),
-          actions = config.actions,
-          alignment = config.alignment === 'right' ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left,
-          priority = config.priority;
+          {actions, priority, template} = config,
+          alignment = config.alignment === 'right' ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left;
 
     /* BUG */
 
-    const bugOptions = { text: '$(bug)', tooltip: 'Start debugging', command: 'workbench.action.debug.start' };
+    const bugOptions = { text: template, tooltip: 'Start debugging', command: 'workbench.action.debug.start' };
 
     this.bug = this.makeItem ( bugOptions, alignment, priority );
     this.bug.show ();
