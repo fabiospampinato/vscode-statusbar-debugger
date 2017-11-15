@@ -2,6 +2,7 @@
 /* IMPORT */
 
 import * as _ from 'lodash';
+import * as chokidar from 'chokidar';
 import * as JSON5 from 'json5';
 import * as path from 'path';
 import * as vscode from 'vscode';
@@ -12,7 +13,7 @@ import Utils from './utils';
 
 class Statusbar {
 
-  config; bug; actions; _isActive; _launchPath;
+  config; bug; actions; _isActive; _launchPath; _watcher;
 
   constructor () {
 
@@ -76,6 +77,21 @@ class Statusbar {
     vscode.debug.onDidTerminateDebugSession ( () => this.update ( false ) );
     vscode.debug.onDidChangeActiveDebugSession ( () => this.update () );
     vscode.window.onDidChangeActiveTextEditor ( debouncedOnDidChangeActiveTextEditor );
+    this.eventWatchLauch ();
+
+  }
+
+  eventWatchLauch () {
+
+    if ( this._watcher ) this._watcher.close ();
+
+    try {
+
+      this._watcher = chokidar.watch ( this._launchPath );
+
+      this._watcher.on ( 'change', () => this.updateBug () );
+
+    } catch ( e ) {}
 
   }
 
@@ -88,6 +104,7 @@ class Statusbar {
     this._launchPath = newLaunchPath;
 
     this.updateBug ();
+    this.eventWatchLauch ();
 
   }
 
