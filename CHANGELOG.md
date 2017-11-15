@@ -1,3 +1,11 @@
+### Version 1.3.0
+- Added support for disabling some or all actions
+- Added a `template` setting
+- Added support for displaying the name of the current debugging session
+- Added a `command `option
+- Added support for a smart `auto` command
+- Watching `launch.json` for changes
+
 ### Version 1.2.0
 - Added options for customizing alignment and priority
 
