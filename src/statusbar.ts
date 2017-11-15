@@ -9,24 +9,44 @@ import Config from './config';
 
 class Statusbar {
 
-  bug; actions;
+  config; bug; actions; _isActive;
 
   constructor () {
 
-    /* CONFIG */
+    this.init ();
+    this.events ();
 
-    const config = Config.get (),
-          {actions, priority, template} = config,
-          alignment = config.alignment === 'right' ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left;
+  }
 
-    /* BUG */
+  init () {
 
-    const bugOptions = { text: template, tooltip: 'Start debugging', command: 'workbench.action.debug.start' };
+    this.initConfig ();
+    this.initBug ();
+    this.initActions ();
 
-    this.bug = this.makeItem ( bugOptions, alignment, priority );
+  }
+
+  initConfig () {
+
+    this.config = Config.get ();
+    this.config.alignment = ( this.config.alignment === 'right' ) ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left;
+
+  }
+
+  initBug () {
+
+    const bugOptions = {
+      text: this.config.template,
+      tooltip: 'Start debugging',
+      command: 'workbench.action.debug.start'
+    };
+
+    this.bug = this.makeItem ( bugOptions, this.config.alignment, this.config.priority );
     this.bug.show ();
 
-    /* ACTIONS */
+  }
+
+  initActions () {
 
     const actionsOptions = [
       { name: 'pause',     text: '❙\u2009❙',                      tooltip: 'Pause',     command: 'workbench.action.debug.pause' },
@@ -38,13 +58,9 @@ class Statusbar {
       { name: 'stop',      text: '$(primitive-square)',           tooltip: 'Stop',      command: 'workbench.action.debug.stop' }
     ];
 
-    const enabledActionsOptions = actionsOptions.filter ( actionOption => _.includes ( actions, actionOption.name ) );
+    const enabledActionsOptions = actionsOptions.filter ( actionOption => _.includes ( this.config.actions, actionOption.name ) );
 
-    this.actions = enabledActionsOptions.map ( ( options, index ) => this.makeItem ( options, alignment, priority - index - 1 ) );
-
-    /* EVENTS */
-
-    this.events ();
+    this.actions = enabledActionsOptions.map ( ( options, index ) => this.makeItem ( options, this.config.alignment, this.config.priority - index - 1 ) );
 
   }
 
@@ -68,17 +84,26 @@ class Statusbar {
 
   update ( active = !!vscode.debug.activeDebugSession ) {
 
-    const config = Config.get ();
+    this._isActive = active;
 
-    /* BUG */
+    this.updateBug ();
+    this.updateActions ();
 
-    this.bug.color = active ? config.activeColor : undefined;
-    this.bug.tooltip = active ? 'Stop debugging' : 'Start debugging';
-    this.bug.command = active ? 'workbench.action.debug.stop' : 'workbench.action.debug.start';
+  }
 
-    /* ACTIONS */
+  updateBug () {
 
-    this.actions.forEach ( action => action[active ? 'show' : 'hide']() );
+    this.bug.color = this._isActive ? this.config.activeColor : undefined;
+    this.bug.tooltip = this._isActive ? 'Stop debugging' : 'Start debugging';
+    this.bug.command = this._isActive ? 'workbench.action.debug.stop' : 'workbench.action.debug.start';
+
+  }
+
+  updateActions () {
+
+    const method = this._isActive ? 'show' : 'hide';
+
+    this.actions.forEach ( action => action[method]() );
 
   }
 
