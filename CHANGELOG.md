@@ -1,3 +1,6 @@
+### Version 1.3.1
+- Fixed a typo
+
 ### Version 1.3.0
 - Added support for disabling some or all actions
 - Added a `template` setting
