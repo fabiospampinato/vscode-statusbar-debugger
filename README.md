@@ -39,7 +39,7 @@ Most of these settings require a window reload in order for them to take effect.
 
 ![Demo](resources/demo.gif)
 
-## Hits:
+## Hints:
 
 - **Disable the default debugger**: set `"debug.hideActionBar": true` in your settings to disable the default, intrusive, debugger.
 
