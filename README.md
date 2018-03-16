@@ -1,4 +1,4 @@
-# VSC StatusBar Debugger
+# StatusBar Debugger
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/fabiospampinato/vscode-statusbar-debugger/master/resources/logo-128x128.png" alt="Logo">
@@ -8,10 +8,10 @@ Adds a debugger to the statusbar, less intrusive than the default floating one.
 
 ## Install
 
-Run the following in the command palette:
+Follow the instructions in the [Marketplace](https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-statusbar-debugger), or run the following in the command palette:
 
 ```shell
-ext install vscode-statusbar-debugger
+ext install fabiospampinato.vscode-statusbar-debugger
 ```
 
 ## Usage
