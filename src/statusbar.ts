@@ -54,16 +54,16 @@ class Statusbar {
   initActions () {
 
     const actionsOptions = [
-      { name: 'pause',     text: '❙\u2009❙',                      tooltip: 'Pause',     command: 'workbench.action.debug.pause' },
-      { name: 'continue',  text: '\u2006$(triangle-right)\u2006', tooltip: 'Continue',  command: 'workbench.action.debug.continue' },
-      { name: 'step_over', text: '$(arrow-right)',                tooltip: 'Step over', command: 'workbench.action.debug.stepOver' },
-      { name: 'step_into', text: '$(arrow-down)',                 tooltip: 'Step into', command: 'workbench.action.debug.stepInto' },
-      { name: 'step_out',  text: '$(arrow-up)',                   tooltip: 'Step out',  command: 'workbench.action.debug.stepOut' },
-      { name: 'restart',   text: '$(mail-reply)',                 tooltip: 'Restart',   command: 'workbench.action.debug.restart' },
-      { name: 'stop',      text: '$(primitive-square)',           tooltip: 'Stop',      command: 'workbench.action.debug.stop' }
+      { name: 'pause',     text: '', tooltip: 'Pause',     command: 'workbench.action.debug.pause' },
+      { name: 'continue',  text: '', tooltip: 'Continue',  command: 'workbench.action.debug.continue' },
+      { name: 'step_over', text: '', tooltip: 'Step over', command: 'workbench.action.debug.stepOver' },
+      { name: 'step_into', text: '', tooltip: 'Step into', command: 'workbench.action.debug.stepInto' },
+      { name: 'step_out',  text: '', tooltip: 'Step out',  command: 'workbench.action.debug.stepOut' },
+      { name: 'restart',   text: '', tooltip: 'Restart',   command: 'workbench.action.debug.restart' },
+      { name: 'stop',      text: '', tooltip: 'Stop',      command: 'workbench.action.debug.stop' }
     ];
 
-    actionsOptions.map ( (actionOption, i ) => actionOption.text = this.config.actionsIcons[i] )
+    actionsOptions.forEach ( ( actionOption, i ) => actionOption.text = this.config.actionsIcons[i] )
 
     const enabledActionsOptions = actionsOptions.filter ( actionOption => _.includes ( this.config.actions, actionOption.name ) );
 
@@ -229,6 +229,7 @@ class Statusbar {
 
     const method = this._isActive ? 'show' : 'hide';
 
+    this.actions.forEach ( ( action, i ) => action.text = this.config.actionsIcons[i] );
     this.actions.forEach ( action => action[method]() );
 
   }

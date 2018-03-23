@@ -67,19 +67,19 @@
         },
         "statusbarDebugger.actionsIcons": {
           "type": "array",
-          "description": "Labels for the actions' buttons",
+          "items": {
+            "type": "string"
+          },
+          "description": "Icons for the actions' buttons",
           "default": [
-            "❙ ❙",
-            " $(triangle-right) ",
+            "❙\u2009❙",
+            "\u2006$(triangle-right)\u2006",
             "$(arrow-right)",
             "$(arrow-down)",
             "$(arrow-up)",
             "$(mail-reply)",
             "$(primitive-square)"
-          ],
-          "items": {
-            "type": "string"
-          }
+          ]
         },
         "statusbarDebugger.activeColor": {
           "type": "string",
