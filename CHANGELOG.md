@@ -1,3 +1,6 @@
+### Version 1.4.0
+- Support for changing the icon of each action
+
 ### Version 1.3.3
 - Updated readme
 
