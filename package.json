@@ -65,6 +65,22 @@
             "stop"
           ]
         },
+        "statusbarDebugger.actionsIcons": {
+          "type": "array",
+          "description": "Labels for the actions' buttons",
+          "default": [
+            "❙ ❙",
+            " $(triangle-right) ",
+            "$(arrow-right)",
+            "$(arrow-down)",
+            "$(arrow-up)",
+            "$(mail-reply)",
+            "$(primitive-square)"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
         "statusbarDebugger.activeColor": {
           "type": "string",
           "description": "The color of the statusbar item when debugging",

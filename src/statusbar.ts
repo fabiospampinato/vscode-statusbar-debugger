@@ -63,6 +63,8 @@ class Statusbar {
       { name: 'stop',      text: '$(primitive-square)',           tooltip: 'Stop',      command: 'workbench.action.debug.stop' }
     ];
 
+    actionsOptions.map ( (actionOption, i ) => actionOption.text = this.config.actionsIcons[i] )
+
     const enabledActionsOptions = actionsOptions.filter ( actionOption => _.includes ( this.config.actions, actionOption.name ) );
 
     this.actions = enabledActionsOptions.map ( ( options, index ) => this.makeItem ( options, this.config.alignment, this.config.priority - index - 1 ) );
