@@ -1,3 +1,6 @@
+### Version 1.4.1
+- Improved active session detection
+
 ### Version 1.4.0
 - Support for changing the icon of each action
 
