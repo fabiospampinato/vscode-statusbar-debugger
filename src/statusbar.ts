@@ -75,8 +75,8 @@ class Statusbar {
 
     const debouncedOnDidChangeActiveTextEditor = _.debounce ( this.onDidChangeActiveTextEditor.bind ( this ), 100 );
 
-    vscode.debug.onDidStartDebugSession ( () => this.update ( true ) );
-    vscode.debug.onDidTerminateDebugSession ( () => this.update ( false ) );
+    vscode.debug.onDidStartDebugSession ( () => this.update () );
+    vscode.debug.onDidTerminateDebugSession ( () => this.update () );
     vscode.debug.onDidChangeActiveDebugSession ( () => this.update () );
     vscode.window.onDidChangeActiveTextEditor ( debouncedOnDidChangeActiveTextEditor );
     this.eventWatchLauch ();
