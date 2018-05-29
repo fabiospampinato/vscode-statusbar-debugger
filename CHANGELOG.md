@@ -1,3 +1,6 @@
+### Version 1.4.2
+- Ensuring all instances of each token get replaced
+
 ### Version 1.4.1
 - Improved active session detection
 
