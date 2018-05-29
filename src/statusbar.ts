@@ -159,7 +159,11 @@ class Statusbar {
     };
 
     _.forOwn ( tokens, ( value, key ) => {
-      template = template.replace ( `[${key}]`, value );
+
+      const re = new RegExp ( `\\[${_.escapeRegExp ( key )}\\]`, 'g' );
+
+      template = template.replace ( re, value );
+
     });
 
     template = _.trim ( template );
