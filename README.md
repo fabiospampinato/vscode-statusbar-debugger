@@ -42,7 +42,7 @@ Most of these settings require a window reload in order for them to take effect.
 
 ## Hints:
 
-- **Disable the default floating debugger**: set `"debug.hideActionBar": true` in your settings to disable the default, intrusive, debugger.
+- **Disable the default floating debugger**: set `"debug.toolBarLocation": "hidden"` in your settings to disable the default, intrusive, debugger.
 - **Disable the default debug launcher**: set `"debug.showInStatusBar": "never"` in yout settings to disable the default debug launcher present in the statusbar.
 - **Icons**: [here](https://octicons.github.com/) you can browse a list of supported icons. If for instance you click the first icon, you'll get a page with `.octicon-alert` written in it, to get the string to use simply remove the `.octicon-` part, so in this case the icon name would be `alert`.
 
