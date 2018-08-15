@@ -1,3 +1,6 @@
+### Version 1.4.3
+- Readme: updated hint for disabling the floating debugger
+
 ### Version 1.4.2
 - Ensuring all instances of each token get replaced
 
