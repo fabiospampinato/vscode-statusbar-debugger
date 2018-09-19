@@ -40,7 +40,7 @@ Most of these settings require a window reload in order for them to take effect.
 
 ![Demo](resources/demo.gif)
 
-## Hints:
+## Hints
 
 - **Disable the default floating debugger**: set `"debug.toolBarLocation": "hidden"` in your settings to disable the default, intrusive, debugger.
 - **Disable the default debug launcher**: set `"debug.showInStatusBar": "never"` in yout settings to disable the default debug launcher present in the statusbar.
