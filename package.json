@@ -3,7 +3,7 @@
   "displayName": "StatusBar Debugger",
   "description": "Adds a debugger to the statusbar, less intrusive than the default floating one",
   "icon": "resources/logo-128x128.png",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "license": "MIT",
   "main": "out/extension.js",
   "publisher": "fabiospampinato",
@@ -118,6 +118,7 @@
     "@types/lodash": "^4.14.59",
     "ts-loader": "^5.2.1",
     "typescript": "^2.4.1",
-    "vscode": "^1.1.4"
+    "vscode": "^1.1.4",
+    "webpack": "^4.20.2"
   }
 }

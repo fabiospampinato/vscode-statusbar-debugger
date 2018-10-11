@@ -1,3 +1,6 @@
+### Version 1.4.4
+- Bundling with webpack
+
 ### Version 1.4.3
 - Readme: updated hint for disabling the floating debugger
 
