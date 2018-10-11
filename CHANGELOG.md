@@ -1,3 +1,6 @@
+### Version 1.4.5
+- Fixed a regression
+
 ### Version 1.4.4
 - Bundling with webpack
 
