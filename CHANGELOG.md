@@ -1,3 +1,6 @@
+### Version 2.0.0
+- Added support for “Debug Launcher”
+
 ### Version 1.4.5
 - Fixed a regression
 
