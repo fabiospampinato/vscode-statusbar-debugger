@@ -3,7 +3,6 @@
 
 import * as _ from 'lodash';
 import * as chokidar from 'chokidar';
-import * as JSON5 from 'json5';
 import * as path from 'path';
 import * as vscode from 'vscode';
 import Config from './config';
@@ -120,28 +119,6 @@ class Statusbar {
 
   }
 
-  async getConfigurationsNr () {
-
-    const launchPath = this._launchPath;
-
-    if ( !launchPath ) return 0;
-
-    const content = await Utils.file.read ( launchPath );
-
-    if ( !content ) return 0;
-
-    const contentj = _.attempt ( JSON5.parse, content ) as any; //TSC
-
-    if ( _.isError ( contentj ) ) return 0;
-
-    const {configurations} = contentj;
-
-    if ( !_.isArray ( configurations ) ) return 0;
-
-    return configurations.length;
-
-  }
-
   makeItem ( options, alignment, priority ) {
 
     const item = vscode.window.createStatusBarItem ( alignment, priority );
@@ -199,28 +176,12 @@ class Statusbar {
     if ( this._isActive ) {
 
       tooltip = 'Stop Debugging';
-      command = 'workbench.action.debug.stop';
+      command = 'statusbarDebugger.stop';
 
     } else {
 
-      const configurationsNr = await this.getConfigurationsNr ();
-
-      if ( !configurationsNr ) {
-
-        tooltip = 'Add Configuration';
-        command = 'debug.addConfiguration';
-
-      } else if ( this.config.command === 'start' || ( this.config.command === 'auto' && configurationsNr === 1 ) ) {
-
-        tooltip = 'Start Debugging';
-        command = 'workbench.action.debug.start';
-
-      } else if ( this.config.command === 'select' || ( this.config.command === 'auto' && configurationsNr > 1 ) ) {
-
-        tooltip = 'Select and Start Debugging';
-        command = 'workbench.action.debug.selectandstart';
-
-      }
+      tooltip = 'Start Debugging';
+      command = 'statusbarDebugger.start';
 
     }
 

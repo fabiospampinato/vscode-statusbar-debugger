@@ -4,12 +4,54 @@
 import * as _ from 'lodash';
 import * as absolute from 'absolute';
 import * as fs from 'fs';
+import * as JSON5 from 'json5';
 import * as pify from 'pify';
 import * as vscode from 'vscode';
+import * as Commands from './commands';
 
 /* UTILS */
 
 const Utils = {
+
+  initCommands ( context: vscode.ExtensionContext ) {
+
+    const {commands} = vscode.extensions.getExtension ( 'fabiospampinato.vscode-statusbar-debugger' ).packageJSON.contributes;
+
+    commands.forEach ( ({ command }) => {
+
+      const commandName = _.last ( command.split ( '.' ) ) as string,
+            handler = Commands[commandName],
+            disposable = vscode.commands.registerCommand ( command, () => handler () );
+
+      context.subscriptions.push ( disposable );
+
+    });
+
+    return Commands;
+
+  },
+
+  async getLaunchConfigurationsNr () {
+
+    const launchPath = this._launchPath;
+
+    if ( !launchPath ) return 0;
+
+    const content = await Utils.file.read ( launchPath );
+
+    if ( !content ) return 0;
+
+    const contentj = _.attempt ( JSON5.parse, content ) as any; //TSC
+
+    if ( _.isError ( contentj ) ) return 0;
+
+    const {configurations} = contentj;
+
+    if ( !_.isArray ( configurations ) ) return 0;
+
+    return configurations.length;
+
+  },
 
   file: {
 

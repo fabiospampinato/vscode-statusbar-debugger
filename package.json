@@ -46,7 +46,7 @@
         },
         "statusbarDebugger.command": {
           "type": "string",
-          "description": "Command to execute when clicking the \"bug\" icon. Possible values are: \"start\" always start the active configuration, \"select\" always ask to select the configuration, \"auto\" start debugging if it detects only one configuration and ask for a selection if there are more than one. If a debug session is active the command will always be to stop it",
+          "description": "Command to execute when clicking the \"bug\" icon. Possible values are: \"start\" always start the active configuration, \"select\" always ask to select the configuration, \"auto\" execute `debugLauncher.auto` or start debugging if it detects only one configuration and ask for a selection if there are more than one. If a debug session is active the command will always be to stop it",
           "default": "auto"
         },
         "statusbarDebugger.actions": {
@@ -97,7 +97,17 @@
           "default": -10
         }
       }
-    }
+    },
+    "commands": [
+      {
+        "command": "statusbarDebugger.start",
+        "title": "StatusBar Debugger: Start"
+      },
+      {
+        "command": "statusbarDebugger.stop",
+        "title": "StatusBar Debugger: Stop"
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "rm -rf out && webpack --mode production",

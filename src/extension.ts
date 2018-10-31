@@ -2,11 +2,16 @@
 /* IMPORT */
 
 import './statusbar';
-import * as _ from 'lodash';
+import * as vscode from 'vscode';
+import Utils from './utils';
 
 /* ACTIVATE */
 
-const activate = _.noop;
+function activate ( ctx: vscode.ExtensionContext ) {
+
+  return Utils.initCommands ( ctx );
+
+}
 
 /* EXPORT */
 
