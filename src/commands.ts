@@ -24,7 +24,7 @@ async function start () {
 
     try {
 
-      vscode.commands.executeCommand ( 'debugLauncher.auto' );
+      await vscode.commands.executeCommand ( 'debugLauncher.auto' );
 
     } catch ( e ) {
 
