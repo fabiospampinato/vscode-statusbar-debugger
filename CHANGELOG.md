@@ -1,3 +1,6 @@
+### Version 2.0.1
+- Properly detecting if “Debug Launcher” is installed
+
 ### Version 2.0.0
 - Added support for “Debug Launcher”
 
