@@ -52,6 +52,12 @@ Most of these settings require a window reload in order for them to take effect.
 
 - **[Debug Launcher](https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-debug-launcher)**: Start debugging, without having to define any tasks or launch configurations, even from the terminal.
 
+## Contributing
+
+If you found a problem, or have a feature request, please open an [issue](https://github.com/fabiospampinato/vscode-statusbar-debugger/issues) about it.
+
+If you want to make a pull request you can debug the extension using [Debug Launcher](https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-debug-launcher).
+
 ## License
 
 MIT © Fabio Spampinato
