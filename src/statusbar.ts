@@ -58,7 +58,7 @@ class Statusbar {
       { name: 'step_over', text: '', tooltip: 'Step over', command: 'workbench.action.debug.stepOver' },
       { name: 'step_into', text: '', tooltip: 'Step into', command: 'workbench.action.debug.stepInto' },
       { name: 'step_out',  text: '', tooltip: 'Step out',  command: 'workbench.action.debug.stepOut' },
-      { name: 'restart',   text: '', tooltip: 'Restart',   command: 'workbench.action.debug.restart' },
+      { name: 'restart',   text: '', tooltip: 'Restart',   command: 'statusbarDebugger.restart' },
       { name: 'stop',      text: '', tooltip: 'Stop',      command: 'workbench.action.debug.stop' }
     ];
 

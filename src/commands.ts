@@ -54,6 +54,20 @@ async function stop () {
 
 }
 
+async function restart () {
+
+  try {
+
+    await vscode.commands.executeCommand ( 'debugLauncher.auto' );
+
+  } catch ( e ) {
+
+    vscode.commands.executeCommand ( 'workbench.action.debug.restart' );
+
+  }
+
+}
+
 /* EXPORT */
 
-export {start, stop};
+export {start, stop, restart};

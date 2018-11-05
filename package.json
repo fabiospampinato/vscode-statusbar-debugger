@@ -106,6 +106,10 @@
       {
         "command": "statusbarDebugger.stop",
         "title": "StatusBar Debugger: Stop"
+      },
+      {
+        "command": "statusbarDebugger.restart",
+        "title": "StatusBar Debugger: Restart"
       }
     ]
   },
