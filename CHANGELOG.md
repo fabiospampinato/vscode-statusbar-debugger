@@ -1,3 +1,6 @@
+### Version 2.0.4
+- Properly restarting debuggers launched via Debug Launcher
+
 ### Version 2.0.3
 - Readme: using hi-res logo
 
