@@ -1,7 +1,7 @@
 # StatusBar Debugger
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/fabiospampinato/vscode-statusbar-debugger/master/resources/logo-128x128.png" alt="Logo">
+  <img src="https://raw.githubusercontent.com/fabiospampinato/vscode-statusbar-debugger/master/resources/logo.png" width="128" alt="Logo">
 </p>
 
 Adds a debugger to the statusbar, less intrusive than the default floating one.
