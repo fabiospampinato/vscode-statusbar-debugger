@@ -46,7 +46,7 @@
         },
         "statusbarDebugger.command": {
           "type": "string",
-          "description": "Command to execute when clicking the \"bug\" icon. Possible values are: \"start\" always start the active configuration, \"select\" always ask to select the configuration, \"auto\" execute `debugLauncher.auto` or start debugging if it detects only one configuration and ask for a selection if there are more than one. If a debug session is active the command will always be to stop it",
+          "description": "Command to execute when clicking the \"bug\" icon. Possible values are:\n - \"start\": always start the active configuration\n - \"select\": always ask to select the configuration\n - \"auto\": execute `debugLauncher.auto` (provided by the Debug Launcher extension) or start debugging if it detects only one configuration or ask for a selection if there are more than one\nIf a debug session is active the command will always be to stop debugging",
           "default": "auto"
         },
         "statusbarDebugger.actions": {
