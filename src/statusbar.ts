@@ -12,7 +12,7 @@ import Utils from './utils';
 
 class Statusbar {
 
-  config; bug; actions; _isActive; _launchPath; _watcher;
+  config; bug; actions; _isActive; _watcher;
 
   constructor () {
 
@@ -24,7 +24,6 @@ class Statusbar {
   init () {
 
     this.initConfig ();
-    this.initLaunchPath ();
     this.initBug ();
     this.initActions ();
 
@@ -33,12 +32,6 @@ class Statusbar {
   initConfig () {
 
     this.updateConfig ();
-
-  }
-
-  initLaunchPath () {
-
-    this._launchPath = this.getLaunchPath ();
 
   }
 
@@ -72,50 +65,9 @@ class Statusbar {
 
   events () {
 
-    const debouncedOnDidChangeActiveTextEditor = _.debounce ( this.onDidChangeActiveTextEditor.bind ( this ), 100 );
-
     vscode.debug.onDidStartDebugSession ( () => this.update () );
     vscode.debug.onDidTerminateDebugSession ( () => this.update () );
     vscode.debug.onDidChangeActiveDebugSession ( () => this.update () );
-    vscode.window.onDidChangeActiveTextEditor ( debouncedOnDidChangeActiveTextEditor );
-    this.eventWatchLauch ();
-
-  }
-
-  eventWatchLauch () {
-
-    if ( this._watcher ) this._watcher.close ();
-
-    try {
-
-      this._watcher = chokidar.watch ( this._launchPath );
-
-      this._watcher.on ( 'change', () => this.updateBug () );
-
-    } catch ( e ) {}
-
-  }
-
-  onDidChangeActiveTextEditor () {
-
-    const newLaunchPath = this.getLaunchPath ();
-
-    if ( newLaunchPath === this._launchPath ) return;
-
-    this._launchPath = newLaunchPath;
-
-    this.updateBug ();
-    this.eventWatchLauch ();
-
-  }
-
-  getLaunchPath () {
-
-    const rootPath = Utils.folder.getActiveRootPath ();
-
-    if ( !rootPath ) return;
-
-    return path.join ( rootPath, '.vscode', 'launch.json' );
 
   }
 

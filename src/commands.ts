@@ -9,8 +9,7 @@ import Utils from './utils';
 
 async function start () {
 
-  const config = Config.get (),
-        nr = await Utils.getLaunchConfigurationsNr ();
+  const config = Config.get ();
 
   if ( config.command === 'start' ) {
 
@@ -27,6 +26,8 @@ async function start () {
       await vscode.commands.executeCommand ( 'debugLauncher.auto' );
 
     } catch ( e ) {
+
+      const nr = await Utils.getLaunchConfigurationsNr ();
 
       if ( !nr ) {
 

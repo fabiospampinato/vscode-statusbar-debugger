@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import * as absolute from 'absolute';
 import * as fs from 'fs';
 import * as JSON5 from 'json5';
+import * as path from 'path';
 import * as pify from 'pify';
 import * as vscode from 'vscode';
 import * as Commands from './commands';
@@ -33,7 +34,11 @@ const Utils = {
 
   async getLaunchConfigurationsNr () {
 
-    const launchPath = this._launchPath;
+    const rootPath = Utils.folder.getActiveRootPath () as string; //TSC
+
+    if ( !rootPath ) return 0;
+
+    const launchPath = path.join ( rootPath, '.vscode', 'launch.json' );
 
     if ( !launchPath ) return 0;
 
