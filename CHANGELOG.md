@@ -1,3 +1,6 @@
+### Version 2.0.6
+- Improved description of the “statusbarDebugger.command” setting
+
 ### Version 2.0.5
 - Fixed a regression regarding detecting existing launch configurations
 
