@@ -1,3 +1,6 @@
+### Version 2.0.5
+- Fixed a regression regarding detecting existing launch configurations
+
 ### Version 2.0.4
 - Properly restarting debuggers launched via Debug Launcher
 
