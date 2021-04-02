@@ -1,3 +1,8 @@
+### Version 2.0.7
+- Update .github/FUNDING.yml
+- Deleted repo-level github funding.yml
+- Minor improvements to the used icons
+
 ### Version 2.0.6
 - Improved description of the “statusbarDebugger.command” setting
 
