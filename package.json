@@ -73,7 +73,7 @@
           "description": "Icons for the actions' buttons",
           "default": [
             "❙ ❙",
-            " $(triangle-right) ",
+            "$(triangle-right)",
             "$(arrow-right)",
             "$(arrow-down)",
             "$(arrow-up)",
