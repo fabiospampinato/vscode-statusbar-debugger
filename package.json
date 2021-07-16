@@ -3,7 +3,7 @@
   "displayName": "StatusBar Debugger",
   "description": "Adds a debugger to the statusbar, less intrusive than the default floating one",
   "icon": "resources/logo-128x128.png",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "license": "MIT",
   "main": "out/extension.js",
   "publisher": "fabiospampinato",
