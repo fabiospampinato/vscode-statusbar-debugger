@@ -72,13 +72,13 @@
           },
           "description": "Icons for the actions' buttons",
           "default": [
-            "❙ ❙",
-            "$(triangle-right)",
-            "$(arrow-right)",
-            "$(arrow-down)",
-            "$(arrow-up)",
-            "$(mail-reply)",
-            "$(primitive-square)"
+            "$(debug-pause)",
+            "$(debug-continue)",
+            "$(debug-step-over)",
+            "$(debug-step-into)",
+            "$(debug-step-out)",
+            "$(debug-step-back)",
+            "$(debug-stop)"
           ]
         },
         "statusbarDebugger.activeColor": {
