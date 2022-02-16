@@ -121,8 +121,8 @@
     "test": "node ./node_modules/vscode/bin/test"
   },
   "dependencies": {
-    "@types/lodash": "^4.14.118",
-    "@types/node": "^10.12.8",
+    "@types/lodash": "^4.14.178",
+    "@types/node": "^10.17.60",
     "absolute": "0.0.1",
     "chokidar": "^1.7.0",
     "json5": "^0.5.1",
@@ -132,7 +132,7 @@
   },
   "devDependencies": {
     "ts-loader": "^5.2.1",
-    "typescript": "^2.4.1",
+    "typescript": "^4.5.5",
     "vscode": "^1.1.4",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.2"
