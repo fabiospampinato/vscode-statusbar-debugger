@@ -1,3 +1,8 @@
+### Version 2.1.0
+- Added support for disabling prompts by setting "donations.disablePrompt" to "true"
+- Updated some dependencies
+- Using the new debug icons that vscode itself uses
+
 ### Version 2.0.8
 - Added a dialog announcing the fundraising
 
