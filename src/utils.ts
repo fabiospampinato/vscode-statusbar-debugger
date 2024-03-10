@@ -1,109 +1,104 @@
 
 /* IMPORT */
 
-import * as _ from 'lodash';
-import * as absolute from 'absolute';
-import * as fs from 'fs';
-import * as JSON5 from 'json5';
-import * as path from 'path';
-import * as pify from 'pify';
-import * as vscode from 'vscode';
-import * as Commands from './commands';
+import fs from 'node:fs';
+import path from 'node:path';
+import JSONC from 'tiny-jsonc';
+import vscode from 'vscode';
+import {getConfig, getProjectRootPath} from 'vscode-extras';
+import type {Options} from './types';
 
-/* UTILS */
+/* MAIN */
 
-const Utils = {
+const attempt = <T> ( fn: () => T ): T | undefined => {
 
-  initCommands ( context: vscode.ExtensionContext ) {
+  try {
 
-    const {commands} = vscode.extensions.getExtension ( 'fabiospampinato.vscode-statusbar-debugger' ).packageJSON.contributes;
+    return fn ();
 
-    commands.forEach ( ({ command }) => {
+  } catch {
 
-      const commandName = _.last ( command.split ( '.' ) ) as string,
-            handler = Commands[commandName],
-            disposable = vscode.commands.registerCommand ( command, () => handler () );
-
-      context.subscriptions.push ( disposable );
-
-    });
-
-    return Commands;
-
-  },
-
-  async getLaunchConfigurationsNr () {
-
-    const rootPath = Utils.folder.getActiveRootPath () as string; //TSC
-
-    if ( !rootPath ) return 0;
-
-    const launchPath = path.join ( rootPath, '.vscode', 'launch.json' );
-
-    if ( !launchPath ) return 0;
-
-    const content = await Utils.file.read ( launchPath );
-
-    if ( !content ) return 0;
-
-    const contentj = _.attempt ( JSON5.parse, content ) as any; //TSC
-
-    if ( _.isError ( contentj ) ) return 0;
-
-    const {configurations} = contentj;
-
-    if ( !_.isArray ( configurations ) ) return 0;
-
-    return configurations.length;
-
-  },
-
-  file: {
-
-    async read ( filepath ) {
-
-      try {
-        return ( await pify ( fs.readFile )( filepath, { encoding: 'utf8' } ) ).toString ();
-      } catch ( e ) {
-        return;
-      }
-
-    }
-
-  },
-
-  folder: {
-
-    getRootPath ( basePath? ) {
-
-      const {workspaceFolders} = vscode.workspace;
-
-      if ( !workspaceFolders ) return;
-
-      const firstRootPath = workspaceFolders[0].uri.fsPath;
-
-      if ( !basePath || !absolute ( basePath ) ) return firstRootPath;
-
-      const rootPaths = workspaceFolders.map ( folder => folder.uri.fsPath ),
-            sortedRootPaths = _.sortBy ( rootPaths, [path => path.length] ).reverse (); // In order to get the closest root
-
-      return sortedRootPaths.find ( rootPath => basePath.startsWith ( rootPath ) );
-
-    },
-
-    getActiveRootPath () {
-
-      const {activeTextEditor} = vscode.window,
-            editorPath = activeTextEditor && activeTextEditor.document.uri.fsPath;
-
-      return Utils.folder.getRootPath ( editorPath );
-
-    }
+    return;
 
   }
 
 };
 
+const command = async ( command: string ): Promise<void> => {
+
+  await vscode.commands.executeCommand ( command );
+
+};
+
+const getLaunchConfigsNr = (): number => {
+
+  const rootPath = getProjectRootPath ();
+
+  if ( !rootPath ) return 0;
+
+  const launchPath = path.join ( rootPath, '.vscode', 'launch.json' );
+  const launchContent = attempt ( () => fs.readFileSync ( launchPath, 'utf8' ) );
+
+  if ( !launchContent ) return 0;
+
+  const launchJSON = attempt ( () => JSONC.parse ( launchContent ) );
+
+  if ( !launchJSON ) return 0;
+  if ( !( 'configurations' in launchJSON ) ) return 0;
+  if ( !isArray ( launchJSON.configurations ) ) return 0;
+
+  return launchJSON.configurations.length;
+
+};
+
+const getOptions = (): Options => {
+
+  const config = getConfig ( 'statusbarDebugger' );
+  const alignment = isString ( config?.alignment ) ? config.alignment : 'left';
+  const priority = isNumber ( config?.priority ) ? config.priority : -10;
+  const actions = isArray ( config?.actions ) && config.actions.every ( isString ) ? config.actions : [];
+  const actionsCommands = isArray ( config?.actionsCommands ) && config.actionsCommands.every ( isString ) ? config.actionsCommands : [];
+  const actionsIcons = isArray ( config?.actionsIcons ) && config.actionsIcons.every ( isString ) ? config.actionsIcons : [];
+  const actionsTooltips = isArray ( config?.actionsTooltips ) && config.actionsTooltips.every ( isString ) ? config.actionsTooltips : [];
+
+  return {alignment, priority, actions, actionsCommands, actionsIcons, actionsTooltips};
+
+};
+
+const isArray = ( value: unknown ): value is unknown[] => {
+
+  return Array.isArray ( value );
+
+};
+
+const isNumber = ( value: unknown ): value is number => {
+
+  return typeof value === 'number';
+
+};
+
+const isString = ( value: unknown ): value is string => {
+
+  return typeof value === 'string';
+
+};
+
+const once = <T> ( fn: () => T ): (() => T) => {
+
+  let inited = false;
+  let result: T;
+
+  return (): T => {
+
+    result = ( inited ? result : fn () );
+    inited = true;
+
+    return result;
+
+  };
+
+};
+
 /* EXPORT */
 
-export default Utils;
+export {attempt, command, getLaunchConfigsNr, getOptions, isArray, isNumber, isString, once};

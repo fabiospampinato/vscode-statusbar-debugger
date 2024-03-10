@@ -1,160 +1,77 @@
 
 /* IMPORT */
 
-import * as _ from 'lodash';
-import * as chokidar from 'chokidar';
-import * as path from 'path';
-import * as vscode from 'vscode';
-import Config from './config';
-import Utils from './utils';
+import vscode from 'vscode';
+import {getOptions, once} from './utils';
+import type {StatusbarItems} from './types';
 
-/* STATUSBAR */
+/* MAIN */
 
-class Statusbar {
+const Statusbar = {
 
-  config; bug; actions; _isActive; _watcher;
+  /* API */
 
-  constructor () {
+  create: once ((): StatusbarItems => {
 
-    this.init ();
-    this.events ();
+    const bug = Statusbar.createAction ( 'bug' );
+    const pause = Statusbar.createAction ( 'pause' );
+    const resume = Statusbar.createAction ( 'continue' );
+    const stepOver = Statusbar.createAction ( 'step_over' );
+    const stepInto = Statusbar.createAction ( 'step_into' );
+    const stepOut = Statusbar.createAction ( 'step_out' );
+    const restart = Statusbar.createAction ( 'restart' );
+    const stop = Statusbar.createAction ( 'stop' );
 
-  }
+    return {bug, pause, resume, stepOver, stepInto, stepOut, restart, stop};
 
-  init () {
+  }),
 
-    this.initConfig ();
-    this.initBug ();
-    this.initActions ();
+  createAction: ( name: string ): vscode.StatusBarItem | undefined => {
 
-  }
+    const options = getOptions ();
+    const actionIndex = options.actions.indexOf ( name );
+    const visible = ( actionIndex >= 0 );
 
-  initConfig () {
+    if ( !visible ) return;
 
-    this.updateConfig ();
-
-  }
-
-  async initBug () {
-
-    this.bug = this.makeItem ( {}, this.config.alignment, this.config.priority );
-    await this.updateBug ();
-    this.bug.show ();
-
-  }
-
-  initActions () {
-
-    const actionsOptions = [
-      { name: 'pause',     text: '', tooltip: 'Pause',     command: 'workbench.action.debug.pause' },
-      { name: 'continue',  text: '', tooltip: 'Continue',  command: 'workbench.action.debug.continue' },
-      { name: 'step_over', text: '', tooltip: 'Step over', command: 'workbench.action.debug.stepOver' },
-      { name: 'step_into', text: '', tooltip: 'Step into', command: 'workbench.action.debug.stepInto' },
-      { name: 'step_out',  text: '', tooltip: 'Step out',  command: 'workbench.action.debug.stepOut' },
-      { name: 'restart',   text: '', tooltip: 'Restart',   command: 'statusbarDebugger.restart' },
-      { name: 'stop',      text: '', tooltip: 'Stop',      command: 'workbench.action.debug.stop' }
-    ];
-
-    actionsOptions.forEach ( ( actionOption, i ) => actionOption.text = this.config.actionsIcons[i] )
-
-    const enabledActionsOptions = actionsOptions.filter ( actionOption => _.includes ( this.config.actions, actionOption.name ) );
-
-    this.actions = enabledActionsOptions.map ( ( options, index ) => this.makeItem ( options, this.config.alignment, this.config.priority - index - 1 ) );
-
-  }
-
-  events () {
-
-    vscode.debug.onDidStartDebugSession ( () => this.update () );
-    vscode.debug.onDidTerminateDebugSession ( () => this.update () );
-    vscode.debug.onDidChangeActiveDebugSession ( () => this.update () );
-
-  }
-
-  makeItem ( options, alignment, priority ) {
-
+    const alignment = ( options.alignment === 'left' ) ? vscode.StatusBarAlignment.Left : vscode.StatusBarAlignment.Right;
+    const priority = options.priority - actionIndex - 1;
+    const command = options.actionsCommands[actionIndex];
+    const icon = options.actionsIcons[actionIndex];
+    const tooltip = options.actionsTooltips[actionIndex];
     const item = vscode.window.createStatusBarItem ( alignment, priority );
 
-    _.extend ( item, options );
+    item.command = command;
+    item.text = icon;
+    item.tooltip = tooltip;
 
     return item;
 
-  }
+  },
 
-  renderTemplate ( template ) {
+  refresh: (): void => {
 
-    const tokens = {
-      name: _.get ( vscode.debug.activeDebugSession, 'name' ) || '' // Better to show nothing than a useless `No Configurations`
-    };
+    const actions = Statusbar.create ();
+    const active = !!vscode.debug.activeDebugSession;
+    const fn = active ? 'show' : 'hide';
 
-    _.forOwn ( tokens, ( value, key ) => {
-
-      const re = new RegExp ( `\\[${_.escapeRegExp ( key )}\\]`, 'g' );
-
-      template = template.replace ( re, value );
-
-    });
-
-    template = _.trim ( template );
-
-    return template;
-
-  }
-
-  update ( active = !!vscode.debug.activeDebugSession ) {
-
-    this._isActive = active;
-
-    this.updateConfig ();
-    this.updateBug ();
-    this.updateActions ();
-
-  }
-
-  updateConfig () {
-
-    this.config = Config.get ();
-    this.config.alignment = ( this.config.alignment === 'right' ) ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left;
-
-  }
-
-  async updateBug () {
-
-    this.bug.text = this.renderTemplate ( this.config.template );
-    this.bug.color = this._isActive ? this.config.activeColor : undefined;
-
-    let tooltip, command;
-
-    if ( this._isActive ) {
-
-      tooltip = 'Stop Debugging';
-      command = 'statusbarDebugger.stop';
-
-    } else {
-
-      tooltip = 'Start Debugging';
-      command = 'statusbarDebugger.start';
-
+    if ( actions.bug ) {
+      actions.bug.tooltip = active ? 'Stop Debugging' : 'Start Debugging';
+      actions.bug.show ();
     }
 
-    this.bug.tooltip = tooltip;
-    this.bug.command = command;
+    actions.pause?.[fn]();
+    actions.resume?.[fn]();
+    actions.stepOver?.[fn]();
+    actions.stepInto?.[fn]();
+    actions.stepOut?.[fn]();
+    actions.restart?.[fn]();
+    actions.stop?.[fn]();
 
   }
 
-  updateActions () {
-
-    const method = this._isActive ? 'show' : 'hide';
-
-    this.actions.forEach ( ( action, i ) => action.text = this.config.actionsIcons[i] );
-    this.actions.forEach ( action => action[method]() );
-
-  }
-
-}
+};
 
 /* EXPORT */
 
-const statusbar = new Statusbar ();
-
-export default statusbar;
+export default Statusbar;

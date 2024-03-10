@@ -1,74 +1,59 @@
 
 /* IMPORT */
 
-import * as vscode from 'vscode';
-import Config from './config';
-import Utils from './utils';
+import vscode from 'vscode';
+import {command, getLaunchConfigsNr} from './utils';
 
-/* COMMANDS */
+/* MAIN */
 
-async function start () {
+const start = async (): Promise<void> => {
 
-  const config = Config.get ();
+  const launchNr = getLaunchConfigsNr ();
 
-  if ( config.command === 'start' ) {
+  if ( launchNr <= 0 ) {
 
-    vscode.commands.executeCommand ( 'workbench.action.debug.start' );
+    await command ( 'debug.addConfiguration' );
 
-  } else if ( config.command === 'select' ) {
+  } else if ( launchNr === 1 ) {
 
-    vscode.commands.executeCommand ( 'workbench.action.debug.selectandstart' );
+    await command ( 'workbench.action.debug.start' );
 
-  } else if ( config.command === 'auto' ) {
+  } else if ( launchNr > 1 ) {
 
-    try {
-
-      await vscode.commands.executeCommand ( 'debugLauncher.auto' );
-
-    } catch ( e ) {
-
-      const nr = await Utils.getLaunchConfigurationsNr ();
-
-      if ( !nr ) {
-
-        vscode.commands.executeCommand ( 'debug.addConfiguration' );
-
-      } else if ( nr === 1 ){
-
-        vscode.commands.executeCommand ( 'workbench.action.debug.start' );
-
-      } else if ( nr > 1 ) {
-
-        vscode.commands.executeCommand ( 'workbench.action.debug.selectandstart' );
-
-      }
-
-    }
+    await command ( 'workbench.action.debug.selectandstart' );
 
   }
 
-}
+};
 
-async function stop () {
+const stop = async (): Promise<void> => {
 
-  vscode.commands.executeCommand ( 'workbench.action.debug.stop' );
+  await command ( 'workbench.action.debug.stop' );
 
-}
+};
 
-async function restart () {
+const toggle = async ( force?: boolean ): Promise<void> => {
 
-  try {
+  force ??= !vscode.debug.activeDebugSession;
 
-    await vscode.commands.executeCommand ( 'debugLauncher.auto' );
+  if ( force ) {
 
-  } catch ( e ) {
+    await start ();
 
-    vscode.commands.executeCommand ( 'workbench.action.debug.restart' );
+  } else {
+
+    await stop ();
 
   }
 
-}
+};
+
+const restart = async (): Promise<void> => {
+
+  await command ( 'workbench.action.debug.restart' );
+
+};
 
 /* EXPORT */
 
-export {start, stop, restart};
+export {start, stop, toggle, restart};
