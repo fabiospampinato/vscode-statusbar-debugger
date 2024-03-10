@@ -1,3 +1,14 @@
+### Version 3.0.0
+- Rewritten: more modern code, much simpler implementation, no third-party dependencies, 99% smaller bundle
+- Removed special support for the [Debug Launcher](https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-debug-launcher) extension
+- Removed setting: "statusbarDebugger.activeColor", for simplicity
+- Removed setting: "statusbarDebugger.command", for simplicity
+- Removed setting: "statusbarDebugger.template", for simplicity
+- New command: "statusbarDebugger.toggle", to start/stop debugging
+- New setting: "statusbarDebugger.actionsCommands", to customize which commands are executed for each action button
+- New setting: "statusbarDebugger.actionsTooltips", to customize the tooltips for each action button
+- New action: "bug", now the "bug" icon is customizable exactly like any other action button
+
 ### Version 2.1.0
 - Added support for disabling prompts by setting "donations.disablePrompt" to "true"
 - Updated some dependencies
