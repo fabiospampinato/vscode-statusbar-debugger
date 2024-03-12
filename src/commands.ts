@@ -2,7 +2,7 @@
 /* IMPORT */
 
 import vscode from 'vscode';
-import {command, getLaunchConfigsNr} from './utils';
+import {getLaunchConfigsNr} from './utils';
 
 /* MAIN */
 
@@ -12,15 +12,15 @@ const start = async (): Promise<void> => {
 
   if ( launchNr <= 0 ) {
 
-    await command ( 'debug.addConfiguration' );
+    await vscode.commands.executeCommand ( 'debug.addConfiguration' );
 
   } else if ( launchNr === 1 ) {
 
-    await command ( 'workbench.action.debug.start' );
+    await vscode.commands.executeCommand ( 'workbench.action.debug.start' );
 
   } else if ( launchNr > 1 ) {
 
-    await command ( 'workbench.action.debug.selectandstart' );
+    await vscode.commands.executeCommand ( 'workbench.action.debug.selectandstart' );
 
   }
 
@@ -28,7 +28,7 @@ const start = async (): Promise<void> => {
 
 const stop = async (): Promise<void> => {
 
-  await command ( 'workbench.action.debug.stop' );
+  await vscode.commands.executeCommand ( 'workbench.action.debug.stop' );
 
 };
 
@@ -50,7 +50,7 @@ const toggle = async ( force?: boolean ): Promise<void> => {
 
 const restart = async (): Promise<void> => {
 
-  await command ( 'workbench.action.debug.restart' );
+  await vscode.commands.executeCommand ( 'workbench.action.debug.restart' );
 
 };
 

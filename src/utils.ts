@@ -4,7 +4,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import JSONC from 'tiny-jsonc';
-import vscode from 'vscode';
 import {getConfig, getProjectRootPath} from 'vscode-extras';
 import type {Options} from './types';
 
@@ -21,12 +20,6 @@ const attempt = <T> ( fn: () => T ): T | undefined => {
     return;
 
   }
-
-};
-
-const command = async ( command: string ): Promise<void> => {
-
-  await vscode.commands.executeCommand ( command );
 
 };
 
@@ -101,4 +94,4 @@ const once = <T> ( fn: () => T ): (() => T) => {
 
 /* EXPORT */
 
-export {attempt, command, getLaunchConfigsNr, getOptions, isArray, isNumber, isString, once};
+export {attempt, getLaunchConfigsNr, getOptions, isArray, isNumber, isString, once};
