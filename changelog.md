@@ -1,3 +1,6 @@
+### Version 3.0.1
+- Minor internal improvements
+
 ### Version 3.0.0
 - Rewritten: more modern code, much simpler implementation, no third-party dependencies, 99% smaller bundle
 - Removed special support for the [Debug Launcher](https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-debug-launcher) extension
