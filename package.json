@@ -5,7 +5,7 @@
   "repository": "github:fabiospampinato/vscode-statusbar-debugger",
   "description": "Adds a debugger to the statusbar, less intrusive than the default floating one",
   "icon": "resources/logo-128x128.png",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "main": "dist/index.js",
   "activationEvents": [
     "onStartupFinished"
